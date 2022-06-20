@@ -13,25 +13,76 @@ PORT=80
 # Write V2Ray configuration
 cat << EOF > ${DIR_TMP}/heroku.json
 {
-    "inbounds": [{
-        "port": ${PORT},
-        "protocol": "vmess",
-        "settings": {
-            "clients": [{
-                "id": "${ID}",
-                "alterId": ${AID}
-            }]
+  "log": {
+    "access": "access.log",
+    "error": "error.log",
+    "loglevel": "info"
+  },
+  "inbounds": [
+    {
+      "port": 80,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "15c8777f-4020-4223-9492-cb78eac6539e",
+            "alterId": 0
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "tlsSettings": {},
+        "tcpSettings": {},
+        "kcpSettings": {},
+        "httpSettings": {},
+        "wsSettings": {
+          "path": "/baPkRT4E/",
+          "headers": {
+            "Host": "www.paravps1.tk"
+          }
         },
-        "streamSettings": {
-            "network": "ws",
-            "wsSettings": {
-                "path": "${WSPATH}"
-            }
-        }
-    }],
-    "outbounds": [{
-        "protocol": "freedom"
-    }]
+        "quicSettings": {}
+      },
+      "domain": "www.paravps1.tk"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "block"
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "0.0.0.0/8",
+          "10.0.0.0/8",
+          "100.64.0.0/10",
+          "169.254.0.0/16",
+          "172.16.0.0/12",
+          "192.0.0.0/24",
+          "192.0.2.0/24",
+          "192.168.0.0/16",
+          "198.18.0.0/15",
+          "198.51.100.0/24",
+          "203.0.113.0/24",
+          "::1/128",
+          "fc00::/7",
+          "fe80::/10"
+        ],
+        "outboundTag": "block"
+      }
+    ]
+  }
 }
 EOF
 
